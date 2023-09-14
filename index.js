@@ -29,15 +29,15 @@ async function run() {
         });
 
         for (const branch of filteredBranches) {
-            console.log("Branch:" + branch.name)
+            octokit.log.info("Branch:" + branch.name)
             let commitMessage = commit_message_template
                 .replace('{source_ref}', source_ref)
                 .replace('{target_branch}', branch.name);
 
-            console.log("commitMessage:" + commitMessage)
+            octokit.log.info("commitMessage:" + commitMessage)
 
-            console.log("target_branch:" + target_branch)
-            console.log("branch:" + branch.name)
+            octokit.log.info("target_branch:" + target_branch)
+            octokit.log.info("branch:" + branch.name)
 
             await octokit.repos.merge({
                 owner: repo.owner,
@@ -49,6 +49,7 @@ async function run() {
         }
 
     } catch (e) {
+        core.set
         core.setFailed(e.message)
     }
 }
