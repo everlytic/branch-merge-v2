@@ -32,17 +32,17 @@ async function run() {
             console.log("Branch:" + branch.name)
             let commitMessage = commit_message_template
                 .replace('{source_ref}', source_ref)
-                .replace('{target_branch}', branch);
+                .replace('{target_branch}', branch.name);
 
             console.log("commitMessage:" + commitMessage)
 
             console.log("target_branch:" + target_branch)
-            console.log("branch:" + branch)
+            console.log("branch:" + branch.name)
 
             await octokit.repos.merge({
                 owner: repo.owner,
                 repo: repo.repo,
-                base: branch,
+                base: branch.name,
                 head: source_ref,
                 commit_message: commitMessage
             })
