@@ -737,8 +737,8 @@ async function run() {
         const repo = github.context.repo
 
         const { data: branches } = await octokit.repos.listBranches({
-            owner,
-            repo,
+            owner: repo.owner,
+            repo: repo.repo
         });
 
         const currentDate = new Date();
