@@ -2,8 +2,6 @@ const github = require('@actions/github')
 const core = require('@actions/core');
 
 async function run() {
-    let data = {}
-
     try {
         const token = core.getInput('github_token')
         const target_branch = core.getInput('target_branch')
@@ -31,28 +29,27 @@ async function run() {
         });
 
         for (const branch of filteredBranches) {
-            data['branch'] = branch.name
-
+            console.log("Branch:" + branch.name)
             let commitMessage = commit_message_template
                 .replace('{source_ref}', source_ref)
                 .replace('{target_branch}', branch.name);
 
-            data['commitMessage'] = commitMessage
+            console.log("commitMessage:" + commitMessage)
 
-            data['target_branch'] = target_branch
-            data['branch'] = branch.name
+            console.log("target_branch:" + target_branch)
+            console.log("branch:" + branch.name)
 
-            await octokit.repos.merge({
-                owner: repo.owner,
-                repo: repo.repo,
-                base: branch.name,
-                head: source_ref,
-                commit_message: commitMessage
-            })
+            // await octokit.repos.merge({
+            //     owner: repo.owner,
+            //     repo: repo.repo,
+            //     base: branch.name,
+            //     head: source_ref,
+            //     commit_message: commitMessage
+            // })
         }
 
     } catch (e) {
-        core.setFailed(e.message + '. ' + data['branch'])
+        core.setFailed(e.message)
     }
 }
 
