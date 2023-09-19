@@ -23,7 +23,11 @@ async function run() {
         const filteredBranches = branches.filter((branch) => {
             // Extract the branch name
             const branchName = branch.name;
-            console.log("Getting branch:" + branchName);
+
+            // Check if the branch name starts with "release/"
+            if (!branchName.startsWith('release/')) {
+                return false;
+            }
 
             // Extract the year and month from the branch name
             const [year, month] = branchName.split('/')[1].split('.').map(Number);
