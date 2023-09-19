@@ -20,12 +20,21 @@ async function run() {
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth() + 1; // Months are zero-based
 
-        // Calculate the branch name pattern for the current year and month
-        const branchPattern = `release/${currentYear}.${currentMonth}.`;
-
         const filteredBranches = branches.filter((branch) => {
-            // Check if the branch name starts with the current year and month pattern
-            return branch.name.startsWith(branchPattern);
+            // Extract the branch name
+            const branchName = branch.name;
+
+            // Extract the year and month from the branch name
+            const [year, month] = branchName.split('/')[1].split('.').map(Number);
+
+            // Calculate a numerical representation of the branch's release date
+            const branchReleaseDate = year * 10000 + month * 100;
+
+            // Calculate a numerical representation of the current date
+            const currentDateValue = currentYear * 10000 + currentMonth * 100;
+
+            // Check if the branch's release date is greater than or equal to the current date
+            return branchReleaseDate >= currentDateValue;
         });
 
         for (const branch of filteredBranches) {
